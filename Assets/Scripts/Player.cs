@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Fix master/main branch problems
+// use master because thats what vscode pushes to
 public class Player : MonoBehaviour {
     private static Rigidbody rigidbody;
     private static Transform transform;
@@ -44,6 +46,12 @@ public class Player : MonoBehaviour {
             xVelocity = velocity;
         } else {
             xVelocity = 0;
+        }
+
+        if (Input.GetKey(KeyCode.Space)) {
+            if (isGrounded) {
+                rigidbody.AddForce(Vector3.up * .8f, ForceMode.Impulse);
+            }
         }
 
         switch (playerState) {
