@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO: Fix master/main branch problems
+// use master because thats what vscode pushes to
 public class Player : MonoBehaviour {
     private static Rigidbody rigidbody;
     private static Transform transform;
