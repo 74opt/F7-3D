@@ -46,6 +46,12 @@ public class Player : MonoBehaviour {
             xVelocity = 0;
         }
 
+        if (Input.GetKey(KeyCode.Space)) {
+            if (isGrounded) {
+                rigidbody.AddForce(Vector3.up * .8f, ForceMode.Impulse);
+            }
+        }
+
         switch (playerState) {
             case PlayerState.Normal:
                 velocity = .2f;
