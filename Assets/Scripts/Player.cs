@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     private static Collider collider;
     private static float velocity;
     private static float xVelocity;
+    private static float yVelocity;
     private static float zVelocity;
     private static bool isGrounded;
     private static PlayerState playerState;
@@ -51,8 +52,11 @@ public class Player : MonoBehaviour {
 
         if (Input.GetKey(KeyCode.Space)) {
             if (isGrounded) {
-                rigidbody.AddForce(Vector3.up * .8f, ForceMode.Impulse);
+                //rigidbody.AddForce(Vector3.up * .8f, ForceMode.Impulse);
+                /// here's some crazy code
+                yVelocity = Mathf.Sqrt(9.81f * 0.002f); 
             }
+            print(yVelocity);
         }
 
         switch (playerState) {
@@ -69,10 +73,14 @@ public class Player : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y/* + 0.1f*/);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + 0.1f);
 
         transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
 
-        transform.Translate(new Vector3(xVelocity, 0, zVelocity), Space.Self);
+        transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
+
+        if (yVelocity < 0 && isGrounded) {
+            yVelocity = -2;
+        }
     }
 }
