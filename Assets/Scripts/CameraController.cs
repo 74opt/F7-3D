@@ -21,15 +21,13 @@ public class CameraController : MonoBehaviour {
 
     // Update is called once per frame
     private void Update() {
-        transform.transform.position = GameObject.Find("Player").transform.position + new Vector3(0, .55f, 0);
+        //transform.transform.position = GameObject.Find("Player").transform.position + new Vector3(0, .55f, 0);
 
         yRotation += Input.GetAxis("Mouse X") * sensitivity;
         xRotation -= Input.GetAxis("Mouse Y") * sensitivity;
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
-    }
 
-    private void FixedUpdate() {
         transform.eulerAngles = new Vector3(xRotation, yRotation, 0);
     }
 }
