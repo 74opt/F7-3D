@@ -17,8 +17,8 @@ public class Player : MonoBehaviour {
     private static PlayerState playerState;
     private static float fallMultiplier = 4f;
     private static float lowJumpMultiplier = 2.3f;
-    private const float jumpCooldown = .5f;
-    private static float jumpTimer = 0;
+    // private const float jumpCooldown = .5f;
+    // private static float jumpTimer = 0;
     private const float standardGravity = 12.753f;
     private const float fallingGravity = 38.259f;
     //private static GameObject camera;
@@ -60,14 +60,14 @@ public class Player : MonoBehaviour {
         }
 
         //* Jumping
-        if (Input.GetKeyDown(KeyCode.Space) && jumpTimer <= 0 && isGrounded) {
+        if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ isGrounded) {
             rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
-            jumpTimer = jumpCooldown;
+            //jumpTimer = jumpCooldown;
         }
 
-        if (jumpTimer > 0) {
-            jumpTimer -= Time.deltaTime;
-        }
+        // if (jumpTimer > 0) {
+        //     jumpTimer -= Time.deltaTime;
+        // }
 
         //* States
         switch (playerState) {
