@@ -40,7 +40,8 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + 0.1f);
+        //isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .1f);
+        isGrounded = Physics.CheckBox(new Vector3(transform.position.x, transform.position.y - collider.bounds.extents.y, transform.position.z), new Vector3(collider.bounds.extents.x, collider.bounds.extents.y, collider.bounds.extents.z));
 
         //* WASD
         if (Input.GetKey(KeyCode.W)) {
@@ -103,6 +104,8 @@ public class Player : MonoBehaviour {
         // } else if (rigidbody.velocity.y > 0 && !Input.GetKey(KeyCode.Space)) {
         //     rigidbody.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         // }
+        //print("xVel: " + xVelocity + " yVel:" + yVelocity + " zVel:" + zVelocity);
+        print(isGrounded);
     }
 
     private void FixedUpdate() {
