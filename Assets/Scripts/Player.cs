@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// MAKE A HORDE SHOOTER
 // TODO: jump make constant pls
 // jump: https://gamedevbeginner.com/how-to-jump-in-unity-with-or-without-physics/#floaty_jump and https://www.youtube.com/watch?v=7KiK0Aqtmzc
 // TODO: make more vars for different values
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour {
     // private static float jumpTimer = 0;
     private const float standardGravity = 12.753f;
     private const float fallingGravity = 38.259f;
+    private bool doubleJump = true;
     //private static GameObject camera;
 
     private enum PlayerState {
@@ -41,6 +43,11 @@ public class Player : MonoBehaviour {
 
     private void Update() {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .1f);
+        if (!doubleJump && isGrounded) {
+            doubleJump = true;
+        }
+        //TODO: fix double jumping
+        //TODO: sliding
         //isGrounded = Physics.CheckBox(new Vector3(transform.position.x, transform.position.y - collider.bounds.extents.y, transform.position.z), new Vector3(collider.bounds.extents.x, collider.bounds.extents.y, collider.bounds.extents.z));
 
         //* WASD
@@ -61,9 +68,12 @@ public class Player : MonoBehaviour {
         }
 
         //* Jumping
-        if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ isGrounded) {
+        if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump)) {
             rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
             //jumpTimer = jumpCooldown;
+            if (!isGrounded) {
+                doubleJump = false;
+            }
         }
 
         // if (jumpTimer > 0) {
@@ -84,6 +94,9 @@ public class Player : MonoBehaviour {
                 velocity = 2f;
                 transform.localScale = new Vector3(1.2f, 1f, 1.2f);
                 break;
+            // case PlayerState.Slide:
+            //     transform.localScale = new Vector3(1,2f, 1f, 1.2f);
+            //     break;
         }
 
         //* Controls states
