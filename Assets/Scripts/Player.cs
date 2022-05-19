@@ -40,8 +40,8 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        //isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .1f);
-        isGrounded = Physics.CheckBox(new Vector3(transform.position.x, transform.position.y - collider.bounds.extents.y, transform.position.z), new Vector3(collider.bounds.extents.x, collider.bounds.extents.y, collider.bounds.extents.z));
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .1f);
+        //isGrounded = Physics.CheckBox(new Vector3(transform.position.x, transform.position.y - collider.bounds.extents.y, transform.position.z), new Vector3(collider.bounds.extents.x, collider.bounds.extents.y, collider.bounds.extents.z));
 
         //* WASD
         if (Input.GetKey(KeyCode.W)) {
@@ -73,15 +73,15 @@ public class Player : MonoBehaviour {
         //* States
         switch (playerState) {
             case PlayerState.Normal:
-                velocity = .2f;
+                velocity = 8f;
                 transform.localScale = new Vector3(1.2f, 1.8f, 1.2f);
                 break;
             case PlayerState.Sprint:
-                velocity = .4f;
+                velocity = 16f;
                 transform.localScale = new Vector3(1.2f, 1.8f, 1.2f);
                 break;
             case PlayerState.Crouch:
-                velocity = .05f;
+                velocity = 2f;
                 transform.localScale = new Vector3(1.2f, 1f, 1.2f);
                 break;
         }
@@ -105,13 +105,19 @@ public class Player : MonoBehaviour {
         //     rigidbody.velocity += Vector3.up * Physics.gravity.y * (lowJumpMultiplier - 1) * Time.deltaTime;
         // }
         //print("xVel: " + xVelocity + " yVel:" + yVelocity + " zVel:" + zVelocity);
-        print(isGrounded);
+        //print(isGrounded);
+
+        //transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
+
+        //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
     }
 
     private void FixedUpdate() {
         transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
 
-        transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
+        //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
+        rigidbody.velocity = transform.TransformDirection(new Vector3(xVelocity, rigidbody.velocity.y, zVelocity));
+        //rigidbody.AddForce(new Vector3(xVelocity, 0, zVelocity), ForceMode.VelocityChange);
 
         if (rigidbody.velocity.y >= 0) {
             rigidbody.AddForce(Vector3.down * rigidbody.mass * standardGravity);
