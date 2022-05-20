@@ -69,11 +69,11 @@ public class Player : MonoBehaviour {
 
         //* Jumping
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump)) {
-            rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
-            //jumpTimer = jumpCooldown;
-            if (!isGrounded) {
+            if (doubleJump) {
+                rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
                 doubleJump = false;
             }
+            rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
         }
 
         // if (jumpTimer > 0) {

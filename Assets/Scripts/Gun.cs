@@ -18,6 +18,12 @@ public class Gun : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (Input.GetKeyDown(KeyCode.Mouse0)) {
+            RaycastHit hit;
+            Ray ray = camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
+            Physics.Raycast(ray, out hit);
+            Vector3 finalPos = hit.point;
+            print(finalPos);
+            //Vector3 finalPos = Physics.RaycastHit(camera.transform.position, camera.transform.forward, 100f).point;
             // public static Object Instantiate(Object original, Vector3 position, Quaternion rotation);
             Instantiate(bullet, spawner.transform.position, camera.transform.rotation * new Quaternion(0, 90, 90, 0));
         }
