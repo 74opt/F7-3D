@@ -127,12 +127,15 @@ public class Player : MonoBehaviour {
 
         //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
         //* This will detect walls
-        if (Physics.Raycast(transform.position, Vector3.right, collider.bounds.extents.x + .1f)) {
+        // TODO: https://www.youtube.com/watch?v=gNt9wBOrQO4
+        if (Physics.Raycast(transform.position, transform.right, collider.bounds.extents.x + .1f)) {
             transform.rotation = Quaternion.Euler(0, 0, 15);
+            print("right");
         }
         
-        if (Physics.Raycast(transform.position, Vector3.left, collider.bounds.extents.x + .1f)) {
+        if (Physics.Raycast(transform.position, -transform.right, collider.bounds.extents.x + .1f)) {
             transform.rotation = Quaternion.Euler(0, 0, -15);
+            print("left");
         }
     }
 
