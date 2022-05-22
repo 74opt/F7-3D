@@ -71,9 +71,12 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump)) {
             if (doubleJump) {
                 rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-                doubleJump = false;
             }
             rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
+
+            if (!isGrounded) {
+                doubleJump = false;
+            }
         }
 
         // if (jumpTimer > 0) {
@@ -123,6 +126,14 @@ public class Player : MonoBehaviour {
         //transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
 
         //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
+        //* This will detect walls
+        if (Physics.Raycast(transform.position, Vector3.right, collider.bounds.extents.x + .1f)) {
+            transform.rotation = Quaternion.Euler(0, 0, 15);
+        }
+        
+        if (Physics.Raycast(transform.position, Vector3.left, collider.bounds.extents.x + .1f)) {
+            transform.rotation = Quaternion.Euler(0, 0, -15);
+        }
     }
 
     private void FixedUpdate() {
