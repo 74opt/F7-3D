@@ -23,6 +23,15 @@ public class Player : MonoBehaviour {
     private const float standardGravity = 12.753f;
     private const float fallingGravity = 38.259f;
     private bool doubleJump = true;
+    private static float health = 300;
+    
+    [Header("Wallrunning variables")]
+    public LayerMask whatIsWall;
+    public LayerMask whatIsGround;
+    public bool wallLeft;
+    public bool wallRight;
+    private RaycastHit leftWallhit;
+    private RaycastHit rightWallhit;
     //private static GameObject camera;
 
     private enum PlayerState {
@@ -42,7 +51,8 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .1f);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .7f);
+
         if (!doubleJump && isGrounded) {
             doubleJump = true;
         }
@@ -69,13 +79,21 @@ public class Player : MonoBehaviour {
 
         //* Jumping
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump)) {
-            if (doubleJump) {
-                rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-            }
-            rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
+            if (wallLeft || wallRight) {
+                if (wallLeft) {
+                    rigidbody.AddForce(Vector3.right * rigidbody.mass * 11, ForceMode.Impulse);
+                } else if (wallRight) {
+                    rigidbody.AddForce(Vector3.left * rigidbody.mass * 11, ForceMode.Impulse);
+                }
+            } else {
+                if (doubleJump) {
+                    rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+                }
+                rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
 
-            if (!isGrounded) {
-                doubleJump = false;
+                if (!isGrounded) {
+                    doubleJump = false;
+                }
             }
         }
 
@@ -128,12 +146,17 @@ public class Player : MonoBehaviour {
         //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
         //* This will detect walls
         // TODO: https://www.youtube.com/watch?v=gNt9wBOrQO4
-        if (Physics.Raycast(transform.position, transform.right, collider.bounds.extents.x + .1f)) {
+        wallLeft = Physics.Raycast(transform.position, Vector3.left, out leftWallhit, 1f, whatIsWall);
+        wallRight = Physics.Raycast(transform.position, Vector3.right, out rightWallhit, 1f, whatIsWall);
+
+        if (wallRight) {
+            rigidbody.AddForce(Vector3.right * rigidbody.mass * 10, ForceMode.Impulse);
             transform.rotation = Quaternion.Euler(0, 0, 15);
             print("right");
         }
         
-        if (Physics.Raycast(transform.position, -transform.right, collider.bounds.extents.x + .1f)) {
+        if (wallLeft) {
+            rigidbody.AddForce(Vector3.left * rigidbody.mass * 10, ForceMode.Impulse);
             transform.rotation = Quaternion.Euler(0, 0, -15);
             print("left");
         }

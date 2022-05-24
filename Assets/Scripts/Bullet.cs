@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour {
     protected float timeUntilDelete = 2f;
     protected float velocity = .5f;
     private Vector3 finalPos;
+    public float damage = 5;
     void Awake() {
         StartCoroutine(Delete());
         finalPos = Gun.finalPos;
