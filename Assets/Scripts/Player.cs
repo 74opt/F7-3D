@@ -79,12 +79,10 @@ public class Player : MonoBehaviour {
 
         //* Jumping
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump)) {
-            if (wallLeft || wallRight) {
-                if (wallLeft) {
-                    rigidbody.AddForce(Vector3.right * rigidbody.mass * 11, ForceMode.Impulse);
-                } else if (wallRight) {
-                    rigidbody.AddForce(Vector3.left * rigidbody.mass * 11, ForceMode.Impulse);
-                }
+            if (wallLeft) {
+                rigidbody.AddForce(Vector3.right * rigidbody.mass * 11, ForceMode.Impulse);
+            } else if (wallRight) {
+                rigidbody.AddForce(Vector3.left * rigidbody.mass * 11, ForceMode.Impulse);
             } else {
                 if (doubleJump) {
                     rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
@@ -149,21 +147,28 @@ public class Player : MonoBehaviour {
         wallLeft = Physics.Raycast(transform.position, Vector3.left, out leftWallhit, 1f, whatIsWall);
         wallRight = Physics.Raycast(transform.position, Vector3.right, out rightWallhit, 1f, whatIsWall);
 
-        if (wallRight) {
-            rigidbody.AddForce(Vector3.right * rigidbody.mass * 10, ForceMode.Impulse);
-            transform.rotation = Quaternion.Euler(0, 0, 15);
-            print("right");
-        }
+        // if (wallRight) {
+        //     // rigidbody.AddForce(Vector3.right * rigidbody.mass * 10, ForceMode.Impulse);
+        //     transform.rotation = Quaternion.Euler(0, 0, 15);
+        //     print("right");
+        // }
         
-        if (wallLeft) {
-            rigidbody.AddForce(Vector3.left * rigidbody.mass * 10, ForceMode.Impulse);
-            transform.rotation = Quaternion.Euler(0, 0, -15);
-            print("left");
-        }
+        // if (wallLeft) {
+        //     // rigidbody.AddForce(Vector3.left * rigidbody.mass * 10, ForceMode.Impulse);
+        //     transform.rotation = Quaternion.Euler(0, 0, -15);
+        //     print("left");
+        // }
     }
 
     private void FixedUpdate() {
-        transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
+        if (wallRight) {
+            transform.eulerAngles = new Vector3(0, CameraController.yRotation, 15);
+        } else if (wallLeft) {
+            transform.eulerAngles = new Vector3(0, CameraController.yRotation, -15);
+        } else {
+            transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
+            print("testing");
+        }
 
         //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
         rigidbody.velocity = transform.TransformDirection(new Vector3(xVelocity, rigidbody.velocity.y, zVelocity));

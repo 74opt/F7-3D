@@ -143,7 +143,7 @@ PrefabInstance:
     - target: {fileID: 503055538731484339, guid: 4f03b3e52ab06b1409bd747f21da76eb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: 503055538731484339, guid: 4f03b3e52ab06b1409bd747f21da76eb,
         type: 3}
@@ -189,6 +189,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 6590470279486613040, guid: 4f03b3e52ab06b1409bd747f21da76eb,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 8228650094184797227, guid: 4f03b3e52ab06b1409bd747f21da76eb,
         type: 3}
@@ -866,6 +871,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e08ed265fc206545a357756c6f0e544, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  whatIsWall:
+    serializedVersion: 2
+    m_Bits: 1
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 1
+  wallLeft: 0
+  wallRight: 0
 --- !u!54 &1290770775
 Rigidbody:
   m_ObjectHideFlags: 0

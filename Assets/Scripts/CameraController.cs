@@ -6,10 +6,11 @@ public class CameraController : MonoBehaviour {
     private static Transform transform;
     private static float sensitivity = 5f;
     private static float xRotation;
-
-    public static float yRotation; /*{
-        get {return yRotation;}
-    }*/
+    public static float yRotation;
+    public Transform playerTransform;
+    // private static float zVelocity;
+    // public static bool rightWall;
+    // public static bool leftWall;
 
     // Start is called before the first frame update
     private void Start() {
@@ -28,6 +29,6 @@ public class CameraController : MonoBehaviour {
 
         xRotation = Mathf.Clamp(xRotation, -90f, 90f);
 
-        transform.eulerAngles = new Vector3(xRotation, yRotation, 0);
+        transform.eulerAngles = new Vector3(xRotation, yRotation, playerTransform.eulerAngles.z);
     }
 }
