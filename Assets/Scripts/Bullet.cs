@@ -28,7 +28,11 @@ public class Bullet : MonoBehaviour {
 
     void FixedUpdate() {
         //transform.Translate(new Vector3(0, .5f, 0), Space.Self);
-        transform.position = Vector3.MoveTowards(transform.position, finalPos, velocity);
+        if (finalPos == new Vector3(0, 0, 0)) {
+            transform.Translate(new Vector3(0, velocity, 0), Space.Self);
+        } else {
+            transform.position = Vector3.MoveTowards(transform.position, finalPos, velocity);
+        }
     }
 
     IEnumerator Delete() {

@@ -25,6 +25,9 @@ public class Gun : MonoBehaviour {
             Ray ray = camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
             finalPos = hit.point;
+            // if (finalPos == new Vector3(0, 0, 0)) {
+            //     finalPos = player.transform.position;
+            // }
             print("final pos:" + finalPos);
             //Vector3 finalPos = Physics.RaycastHit(camera.transform.position, camera.transform.forward, 100f).point;
             // public static Object Instantiate(Object original, Vector3 position, Quaternion rotation);
