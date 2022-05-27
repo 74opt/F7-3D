@@ -137,13 +137,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 503055538731484339, guid: 4f03b3e52ab06b1409bd747f21da76eb,
         type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 503055538731484339, guid: 4f03b3e52ab06b1409bd747f21da76eb,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 503055538731484339, guid: 4f03b3e52ab06b1409bd747f21da76eb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.51
+      value: 2.06
       objectReference: {fileID: 0}
     - target: {fileID: 503055538731484339, guid: 4f03b3e52ab06b1409bd747f21da76eb,
         type: 3}
@@ -649,6 +654,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4d39b45e1676a44e9724ad06d6ba0f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerTransform: {fileID: 1290770779}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,7 +1152,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1727725260}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 702de993220e07b46a9f476ac3fa031b, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

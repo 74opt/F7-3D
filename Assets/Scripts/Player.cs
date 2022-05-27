@@ -42,6 +42,7 @@ public class Player : MonoBehaviour {
         rigidbody = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
         collider = GetComponent<Collider>();
+        rigidbody.freezeRotation = true;
     }
 
     private void Awake() {
@@ -69,9 +70,9 @@ public class Player : MonoBehaviour {
             zVelocity = 0;
         }
 
-        if (Input.GetKey(KeyCode.A)) {
+        if (Input.GetKey(KeyCode.A) && !wallLeft) {
             xVelocity = -velocity;
-        } else if (Input.GetKey(KeyCode.D)) {
+        } else if (Input.GetKey(KeyCode.D) && !wallRight) {
             xVelocity = velocity;
         } else {
             xVelocity = 0;
@@ -80,9 +81,9 @@ public class Player : MonoBehaviour {
         //* Jumping
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump)) {
             if (wallLeft) {
-                rigidbody.AddForce(Vector3.right * rigidbody.mass * 11, ForceMode.Impulse);
+                rigidbody.AddForce(transform.right * rigidbody.mass * 60, ForceMode.Force);
             } else if (wallRight) {
-                rigidbody.AddForce(Vector3.left * rigidbody.mass * 11, ForceMode.Impulse);
+                rigidbody.AddForce(-transform.right * rigidbody.mass * 60, ForceMode.Force);
             } else {
                 if (doubleJump) {
                     rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
@@ -144,8 +145,8 @@ public class Player : MonoBehaviour {
         //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
         //* This will detect walls
         // TODO: https://www.youtube.com/watch?v=gNt9wBOrQO4
-        wallLeft = Physics.Raycast(transform.position, Vector3.left, out leftWallhit, 1f, whatIsWall);
-        wallRight = Physics.Raycast(transform.position, Vector3.right, out rightWallhit, 1f, whatIsWall);
+        wallLeft = Physics.Raycast(transform.position, -transform.right, out leftWallhit, 1f, whatIsWall);
+        wallRight = Physics.Raycast(transform.position, transform.right, out rightWallhit, 1f, whatIsWall);
 
         // if (wallRight) {
         //     // rigidbody.AddForce(Vector3.right * rigidbody.mass * 10, ForceMode.Impulse);
@@ -163,11 +164,14 @@ public class Player : MonoBehaviour {
     private void FixedUpdate() {
         if (wallRight) {
             transform.eulerAngles = new Vector3(0, CameraController.yRotation, 15);
+            rigidbody.AddForce(transform.right * rigidbody.mass * 10, ForceMode.Impulse);
+            print("right");
         } else if (wallLeft) {
             transform.eulerAngles = new Vector3(0, CameraController.yRotation, -15);
+            rigidbody.AddForce(-transform.right * rigidbody.mass * 10, ForceMode.Impulse);
+            print("left");
         } else {
             transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
-            print("testing");
         }
 
         //transform.Translate(new Vector3(xVelocity, yVelocity, zVelocity), Space.Self);
