@@ -32,6 +32,8 @@ public class Player : MonoBehaviour {
     public bool wallRight;
     private RaycastHit leftWallhit;
     private RaycastHit rightWallhit;
+    private float wallrunTimer;
+    private const float wallrunTimerAmount = 1;
     //private static GameObject camera;
 
     private enum PlayerState {
@@ -54,7 +56,7 @@ public class Player : MonoBehaviour {
     private void Update() {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .7f);
 
-        if (!doubleJump && isGrounded) {
+        if (!doubleJump && (isGrounded || wallRight || wallLeft)) {
             doubleJump = true;
         }
         //TODO: fix double jumping
@@ -80,22 +82,20 @@ public class Player : MonoBehaviour {
 
         //* Jumping
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump || wallLeft || wallRight)) {
-            if (wallLeft) {
-                //rigidbody.AddForce(transform.right * rigidbody.mass * 240, ForceMode.Acceleration);
-                //rigidbody.AddForce(Vector3.up * rigidbody.mass * 80, ForceMode.Impulse);
-                rigidbody.AddForce(Quaternion.AngleAxis(-45, Vector3.up) * transform.right * rigidbody.mass * 240, ForceMode.Impulse);
-            } else if (wallRight) {
-                //rigidbody.AddForce(-transform.right * rigidbody.mass * 240, ForceMode.Acceleration);
-                //rigidbody.AddForce(Vector3.up * rigidbody.mass * 80, ForceMode.Impulse);
-            } else {
-                if (doubleJump) {
-                    rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
-                }
-                rigidbody.AddForce(Vector3.up * rigidbody.mass * 10, ForceMode.Impulse);
 
-                if (!isGrounded) {
-                    doubleJump = false;
-                }
+            if (wallLeft) {
+                transform.position = new Vector3(leftWallhit.point.x + transform.right.x, transform.position.y, transform.position.z);
+            } else if (wallRight) {
+                transform.position = new Vector3(rightWallhit.point.x - transform.right.x, transform.position.y, transform.position.z);
+            }
+
+            if (doubleJump) {
+                rigidbody.velocity = new Vector3(rigidbody.velocity.x, 0, rigidbody.velocity.z);
+            }
+            rigidbody.AddForce(transform.up * rigidbody.mass * 12, ForceMode.Impulse);
+
+            if (!isGrounded) {
+                doubleJump = false;
             }
         }
 
@@ -170,13 +170,13 @@ public class Player : MonoBehaviour {
             rigidbody.AddForce(transform.right * rigidbody.mass * 10, ForceMode.Impulse);
             //print("right");
             rigidbody.AddForce(Vector3.down * rigidbody.mass, ForceMode.Impulse);
-            //rigidbody.velocity = transform.TransformDirection(zVelocity * .5176f, 0, zVelocity);
+            rigidbody.velocity = transform.TransformDirection(zVelocity * .5f, 0, zVelocity);
         } else if (wallLeft) {
             transform.eulerAngles = new Vector3(0, CameraController.yRotation, -15);
             rigidbody.AddForce(-transform.right * rigidbody.mass * 10, ForceMode.Impulse);
             //rigidbody.AddForce(Vector3.down * rigidbody.mass, ForceMode.Impulse);
             //print("left");
-            rigidbody.velocity = transform.TransformDirection(zVelocity * .5176f, 0, zVelocity);
+            rigidbody.velocity = transform.TransformDirection(zVelocity * .5f, 0, zVelocity);
         } else {
             transform.eulerAngles = new Vector3(0, CameraController.yRotation, 0);
             rigidbody.velocity = transform.TransformDirection(new Vector3(xVelocity, rigidbody.velocity.y, zVelocity));
