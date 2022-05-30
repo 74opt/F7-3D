@@ -33,7 +33,6 @@ public class Enemy : MonoBehaviour {
     private void OnCollisionEnter(Collision other) {
         if (other.gameObject.tag == "Projectile") {
             health -= other.gameObject.GetComponent<Bullet>().damage;
-            print("Enemy health: " + health);
         }
 
         if (other.gameObject.tag == "Player") {

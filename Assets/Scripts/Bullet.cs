@@ -11,7 +11,6 @@ public class Bullet : MonoBehaviour {
     void Awake() {
         StartCoroutine(Delete());
         finalPos = Gun.finalPos;
-        print("bulletPos: " + transform.position);
     }
 
     // Update is called once per frame

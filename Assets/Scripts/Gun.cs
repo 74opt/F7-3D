@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour {
     public GameObject spawner;
     public static Vector3 finalPos;
     private static float fireRateTimer;
-    private const float fireRate = .2f;
+    private const float fireRate = .17f;
 
     // Start is called before the first frame update
     void Start() {
@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Mouse0) && fireRateTimer <= 0) {
+        if (Input.GetKey(KeyCode.Mouse0) && fireRateTimer <= 0) {
             RaycastHit hit;
             Ray ray = camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
@@ -28,7 +28,6 @@ public class Gun : MonoBehaviour {
             // if (finalPos == new Vector3(0, 0, 0)) {
             //     finalPos = player.transform.position;
             // }
-            print("final pos:" + finalPos);
             //Vector3 finalPos = Physics.RaycastHit(camera.transform.position, camera.transform.forward, 100f).point;
             // public static Object Instantiate(Object original, Vector3 position, Quaternion rotation);
             Instantiate(bullet, spawner.transform.position, camera.transform.rotation * new Quaternion(0, 90, 90, 0));

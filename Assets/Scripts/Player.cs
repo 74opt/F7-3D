@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
     private const float wallrunTimerAmount = 1;
     //private static GameObject camera;
 
+    //* feel like i need this public for something soon
     private enum PlayerState {
         Normal, Sprint, Crouch, Slide
     }
@@ -55,7 +56,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        print(playerState);
+        print(doubleJump);
         isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .7f);
 
         if (!doubleJump && (isGrounded || wallRight || wallLeft)) {
@@ -86,8 +87,10 @@ public class Player : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump || wallLeft || wallRight)) {
             if (wallLeft) {
                 transform.position = new Vector3(leftWallhit.point.x + transform.right.x, transform.position.y, transform.position.z);
+                doubleJump = true;
             } else if (wallRight) {
                 transform.position = new Vector3(rightWallhit.point.x - transform.right.x, transform.position.y, transform.position.z);
+                doubleJump = true;
             }
 
             if (doubleJump) {
@@ -118,12 +121,22 @@ public class Player : MonoBehaviour {
                 velocity = 2f;
                 transform.localScale = new Vector3(1.2f, 1f, 1.2f);
                 break;
+            case PlayerState.Slide:
+                if (velocity > 2 && isGrounded) {
+                    velocity -= .02f;
+                }/* else {
+                    playerState = PlayerState.Crouch;
+                }*/
+                transform.localScale = new Vector3(1.2f, 1f, 1.2f);
+                break;
             // case PlayerState.Slide:
             //     transform.localScale = new Vector3(1,2f, 1f, 1.2f);
             //     break;
         }
 
         //* Controls states
+        //playerState = PlayerState.Normal;
+
         if (Input.GetKeyDown(KeyCode.LeftShift)) {
             if (playerState != PlayerState.Sprint) {
                 playerState = PlayerState.Sprint;
@@ -131,12 +144,15 @@ public class Player : MonoBehaviour {
                 playerState = PlayerState.Normal;
             }
         }
+
         if (Input.GetKey(KeyCode.LeftControl)) {
-            if (rigidbody.velocity.x >= .2f) {
+            if (velocity > 2) {
                 playerState = PlayerState.Slide;
             } else {
                 playerState = PlayerState.Crouch;
             }
+        } else if (Input.GetKeyUp(KeyCode.LeftControl)) {
+            playerState = PlayerState.Normal;
         }
 
         // if (rigidbody.velocity.y < 0) {
