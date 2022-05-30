@@ -45,6 +45,7 @@ public class Player : MonoBehaviour {
         transform = GetComponent<Transform>();
         collider = GetComponent<Collider>();
         rigidbody.freezeRotation = true;
+        playerState = PlayerState.Normal;
     }
 
     private void Awake() {
@@ -54,6 +55,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
+        print(playerState);
         isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .7f);
 
         if (!doubleJump && (isGrounded || wallRight || wallLeft)) {
@@ -82,7 +84,6 @@ public class Player : MonoBehaviour {
 
         //* Jumping
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump || wallLeft || wallRight)) {
-
             if (wallLeft) {
                 transform.position = new Vector3(leftWallhit.point.x + transform.right.x, transform.position.y, transform.position.z);
             } else if (wallRight) {
@@ -123,16 +124,19 @@ public class Player : MonoBehaviour {
         }
 
         //* Controls states
-        if (Input.GetKey(KeyCode.LeftShift)) {
-            playerState = PlayerState.Sprint;
-        } else if (Input.GetKey(KeyCode.LeftControl)) {
+        if (Input.GetKeyDown(KeyCode.LeftShift)) {
+            if (playerState != PlayerState.Sprint) {
+                playerState = PlayerState.Sprint;
+            } else {
+                playerState = PlayerState.Normal;
+            }
+        }
+        if (Input.GetKey(KeyCode.LeftControl)) {
             if (rigidbody.velocity.x >= .2f) {
                 playerState = PlayerState.Slide;
             } else {
                 playerState = PlayerState.Crouch;
             }
-        } else {
-            playerState = PlayerState.Normal;
         }
 
         // if (rigidbody.velocity.y < 0) {

@@ -9,7 +9,7 @@ public class Spawner : MonoBehaviour {
     // Start is called before the first frame update
     void Start() {
         transform = GetComponent<Transform>();
-        InvokeRepeating("Spawn", Random.Range(0f, 8f), Random.Range(5f, 8f));
+        InvokeRepeating("Spawn", Random.Range(0f, 4f), Random.Range(2f, 4f));
     }
 
     private void Spawn() {
