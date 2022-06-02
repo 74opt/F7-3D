@@ -36,7 +36,12 @@ public class Gun : MonoBehaviour {
             fireRateTimer -= Time.deltaTime;
         }
 
-        transform.localScale = new Vector3(.18f / player.transform.localScale.x, .45f / player.transform.localScale.y, .12f / player.transform.localScale.z);
+        if (Player.playerState == Player.PlayerState.Crouch || Player.playerState == Player.PlayerState.Slide) {
+            transform.localScale = new Vector3(.15f, .45f, .18f);
+        } else {
+            transform.localScale = new Vector3(.15f, .45f, .1f);
+        }
+        //transform.localScale = new Vector3(.18f / player.transform.localScale.x, .45f / player.transform.localScale.y, .12f / player.transform.localScale.z);
 
         if (Player.playerState == Player.PlayerState.Sprint) { //TODO this stuff pls
             //transform.rotation = Quaternion.Euler(15, 0, 0);
