@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKey(KeyCode.Mouse0) && fireRateTimer <= 0) {
+        if (Input.GetKey(KeyCode.Mouse0) && fireRateTimer <= 0 && Player.playerState != Player.PlayerState.Sprint) {
             RaycastHit hit;
             Ray ray = camera.GetComponent<Camera>().ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);
@@ -37,6 +37,14 @@ public class Gun : MonoBehaviour {
         }
 
         transform.localScale = new Vector3(.18f / player.transform.localScale.x, .45f / player.transform.localScale.y, .12f / player.transform.localScale.z);
+
+        if (Player.playerState == Player.PlayerState.Sprint) { //TODO this stuff pls
+            //transform.rotation = Quaternion.Euler(15, 0, 0);
+            //transform.position 
+        } else {
+            //transform.rotation = Quaternion.Euler(90, 0, 0);
+            //transform.position
+        }
     }
     
 }

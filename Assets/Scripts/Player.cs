@@ -15,7 +15,7 @@ public class Player : MonoBehaviour {
     private static float yVelocity;
     private static float zVelocity;
     private static bool isGrounded;
-    private static PlayerState playerState;
+    public static PlayerState playerState;
     private static float fallMultiplier = 4f;
     private static float lowJumpMultiplier = 2.3f;
     // private const float jumpCooldown = .5f;
@@ -37,7 +37,7 @@ public class Player : MonoBehaviour {
     //private static GameObject camera;
 
     //* feel like i need this public for something soon
-    private enum PlayerState {
+    public enum PlayerState {
         Normal, Sprint, Crouch, Slide
     }
 
@@ -56,7 +56,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        print(doubleJump);
+        print(velocity);
         isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .7f);
 
         if (!doubleJump && (isGrounded || wallRight || wallLeft)) {
@@ -85,11 +85,18 @@ public class Player : MonoBehaviour {
 
         //* Jumping
         if (Input.GetKeyDown(KeyCode.Space) && /*jumpTimer <= 0 &&*/ (isGrounded || doubleJump || wallLeft || wallRight)) {
+            if (playerState == PlayerState.Slide) {
+                velocity += .75f;
+            }
             if (wallLeft) {
+                print("left");
                 transform.position = new Vector3(leftWallhit.point.x + transform.right.x, transform.position.y, transform.position.z);
+                velocity += 3;
                 doubleJump = true;
             } else if (wallRight) {
+                print("right");
                 transform.position = new Vector3(rightWallhit.point.x - transform.right.x, transform.position.y, transform.position.z);
+                velocity += 3;
                 doubleJump = true;
             }
 
@@ -108,13 +115,22 @@ public class Player : MonoBehaviour {
         // }
 
         //* States
+        //TODO: find some way to slow down player on big turns to nerf the speed gain
         switch (playerState) {
             case PlayerState.Normal:
-                velocity = 8f;
+                if (velocity > 8) {
+                    velocity -= .5f;
+                } else {
+                    velocity = 8f;
+                }
                 transform.localScale = new Vector3(1.2f, 1.8f, 1.2f);
                 break;
             case PlayerState.Sprint:
-                velocity = 16f;
+                if (velocity > 16) {
+                    velocity -= .5f;
+                } else {
+                    velocity = 16f;
+                }
                 transform.localScale = new Vector3(1.2f, 1.8f, 1.2f);
                 break;
             case PlayerState.Crouch:
@@ -146,7 +162,7 @@ public class Player : MonoBehaviour {
         }
 
         if (Input.GetKey(KeyCode.LeftControl)) {
-            if (velocity > 2) {
+            if (velocity > 2) { // FIXME
                 playerState = PlayerState.Slide;
             } else {
                 playerState = PlayerState.Crouch;
@@ -182,6 +198,11 @@ public class Player : MonoBehaviour {
         //     transform.rotation = Quaternion.Euler(0, 0, -15);
         //     print("left");
         // }
+
+        //! velocity limit
+        if (velocity > 75) {
+            velocity = 75;
+        }
     }
 
     private void FixedUpdate() {
@@ -212,10 +233,6 @@ public class Player : MonoBehaviour {
             rigidbody.AddForce(Vector3.down * rigidbody.mass * fallingGravity);
         }
 
-        //* Sliding
-        if (playerState == PlayerState.Slide) {
-            
-        }
         //rigidbody.AddForce(Physics.gravity * 1.3f * rigidbody.mass);
 
         // if (yVelocity < 0 && isGrounded) {
