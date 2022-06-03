@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1330008220566018995}
   - component: {fileID: 1330008220566018994}
   - component: {fileID: 1330008220566018894}
+  - component: {fileID: 3248715482430792081}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Projectile
@@ -111,3 +112,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ccd329ce80832b40b2374dd0f12c81b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosion: {fileID: 8686571208059505086, guid: 4a4eff695d743d24498c2fdba53eecd1,
+    type: 3}
+  damage: 5
+--- !u!54 &3248715482430792081
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1330008220566018993}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 112
+  m_CollisionDetection: 0

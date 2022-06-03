@@ -56,7 +56,7 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
-        print(velocity);
+        //print(velocity);
         isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .7f);
 
         if (!doubleJump && (isGrounded || wallRight || wallLeft)) {
@@ -89,12 +89,12 @@ public class Player : MonoBehaviour {
                 velocity += .75f;
             }
             if (wallLeft) {
-                print("left");
+                //print("left");
                 transform.position = new Vector3(leftWallhit.point.x + transform.right.x, transform.position.y, transform.position.z);
                 velocity += 3;
                 doubleJump = true;
             } else if (wallRight) {
-                print("right");
+                //print("right");
                 transform.position = new Vector3(rightWallhit.point.x - transform.right.x, transform.position.y, transform.position.z);
                 velocity += 3;
                 doubleJump = true;
@@ -162,7 +162,7 @@ public class Player : MonoBehaviour {
         }
 
         if (Input.GetKey(KeyCode.LeftControl)) {
-            if (velocity > 2) { // FIXME
+            if (velocity > 2) { // FIXME always put on slide, even when not moving
                 playerState = PlayerState.Slide;
             } else {
                 playerState = PlayerState.Crouch;

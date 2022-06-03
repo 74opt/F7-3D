@@ -44,10 +44,11 @@ public class Gun : MonoBehaviour {
         //transform.localScale = new Vector3(.18f / player.transform.localScale.x, .45f / player.transform.localScale.y, .12f / player.transform.localScale.z);
 
         if (Player.playerState == Player.PlayerState.Sprint) { //TODO this stuff pls
-            //transform.rotation = Quaternion.Euler(15, 0, 0);
+            //transform.rotation = Quaternion.FromToRotation();
+            //transform.rotation = new Quaternion(15, player.transform.rotation.y, 90, 90);
             //transform.position 
         } else {
-            //transform.rotation = Quaternion.Euler(90, 0, 0);
+            //transform.rotation = new Quaternion(90, player.transform.rotation.y, 90, 0);
             //transform.position
         }
     }
