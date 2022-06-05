@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour {
     private Rigidbody rigidbody;
     private Transform transform;
     private Collider collider;
-    private float velocity = .25f;
+    private float velocity = .3f;
     private float health = 20;
     private float damage = 10;
     private GameObject player;
