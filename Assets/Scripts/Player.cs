@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     private const float standardGravity = 12.753f;
     private const float fallingGravity = 38.259f;
     private bool doubleJump = true;
-    private static float health = 300;
+    public static float health = 300;
     
     [Header("Wallrunning variables")]
     public LayerMask whatIsWall;
@@ -56,6 +56,18 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
+        if (health <= 0) {
+            // TODO: losing
+            Time.timeScale = 0;
+        }
+
+        //? should this be here?
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Application.Quit();
+        }
+
+        //health -= .01f;
+
         //print(velocity);
         isGrounded = Physics.Raycast(transform.position, Vector3.down, collider.bounds.extents.y + .7f);
 
@@ -200,8 +212,8 @@ public class Player : MonoBehaviour {
         // }
 
         //! velocity limit
-        if (velocity > 75) {
-            velocity = 75;
+        if (velocity > 150) {
+            velocity = 150;
         }
     }
 
@@ -238,5 +250,11 @@ public class Player : MonoBehaviour {
         // if (yVelocity < 0 && isGrounded) {
         //     yVelocity = -2;
         // }
+    }
+
+    private void OnCollisionEnter(Collision collision) {
+        if (collision.gameObject.tag == "Enemy") {
+            health -= 20;
+        }
     }
 }
