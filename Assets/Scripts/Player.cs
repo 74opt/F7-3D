@@ -56,6 +56,10 @@ public class Player : MonoBehaviour {
     }
 
     private void Update() {
+        if (transform.position.y < -10) {
+            health = -1;
+        }
+
         if (health <= 0) {
             // TODO: losing
             Time.timeScale = 0;
